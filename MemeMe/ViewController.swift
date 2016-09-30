@@ -8,18 +8,43 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    //MARK: IBOutlets
+    
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var galleryButton: UIBarButtonItem!
+    @IBOutlet weak var cameraButton: UIBarButtonItem!
+    
+    //MARK: IBActions
+    
+    @IBAction func pickImage(_ sender: UIBarButtonItem) {
+        
+        let imagePickerView = UIImagePickerController()
+        imagePickerView.delegate = self
+        
+        // Gallery Button tag = 0 & Camera Button tag = 1
+        imagePickerView.sourceType = sender.tag == 0 ? .photoLibrary : .camera
+        
+        present(imagePickerView, animated: true, completion: nil)
     }
+    
+    //MARK: UIImagePickerControllerDelegate methods
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
+            imageView.image = image
+        }
+        dismiss(animated: true, completion: nil)
     }
-
+    
+    //MARK: Lifecycle methods
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        galleryButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.photoLibrary)
+        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+    }
 
 }
 
