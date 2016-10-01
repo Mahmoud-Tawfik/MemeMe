@@ -10,7 +10,7 @@
         <!--Meme Me-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MemeMe" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="MemeEditorViewController" customModule="MemeMe" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -19,11 +19,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="uTa-U7-OBd">
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="uTa-U7-OBd" secondAttribute="height" multiplier="4:3" id="9NZ-L4-yPP"/>
-                                </constraints>
-                            </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ijM-Lt-ykx">
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Fos-xe-Jhe"/>
@@ -41,13 +36,18 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="hTW-PQ-Yig"/>
                                 </items>
                             </toolbar>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TOP" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RGN-6T-8AT">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uTa-U7-OBd">
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="uTa-U7-OBd" secondAttribute="height" priority="900" id="9NZ-L4-yPP"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="TOP" textAlignment="center" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="RGN-6T-8AT">
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="BOTTOM" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gpn-RC-nE1">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="BOTTOM" textAlignment="center" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="gpn-RC-nE1">
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -56,8 +56,10 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="uTa-U7-OBd" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" priority="750" id="1dM-oA-9PS"/>
                             <constraint firstItem="gpn-RC-nE1" firstAttribute="trailing" secondItem="uTa-U7-OBd" secondAttribute="trailing" id="74v-i1-Yq4"/>
                             <constraint firstItem="RGN-6T-8AT" firstAttribute="leading" secondItem="uTa-U7-OBd" secondAttribute="leading" id="87w-Oe-A3m"/>
+                            <constraint firstItem="uTa-U7-OBd" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" priority="750" id="8Q8-I6-jKn"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="ijM-Lt-ykx" secondAttribute="bottom" id="8YJ-2R-sU5"/>
                             <constraint firstItem="ijM-Lt-ykx" firstAttribute="top" relation="greaterThanOrEqual" secondItem="uTa-U7-OBd" secondAttribute="bottom" id="LBc-J9-9Tr"/>
                             <constraint firstItem="RGN-6T-8AT" firstAttribute="top" secondItem="uTa-U7-OBd" secondAttribute="top" constant="10" id="PuC-9n-z7o"/>
@@ -73,13 +75,25 @@
                             <constraint firstItem="uTa-U7-OBd" firstAttribute="top" relation="greaterThanOrEqual" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="wLy-Qo-hSm"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Meme Me" id="u7S-1y-cl0"/>
+                    <navigationItem key="navigationItem" title="Meme Me" id="u7S-1y-cl0">
+                        <barButtonItem key="leftBarButtonItem" systemItem="action" id="H6I-Ff-2xQ">
+                            <connections>
+                                <action selector="shareMeme:" destination="BYZ-38-t0r" id="AXE-os-vf9"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="w0c-DX-vja">
+                            <connections>
+                                <action selector="cancel:" destination="BYZ-38-t0r" id="3Sf-vm-f2k"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="bottomTextField" destination="gpn-RC-nE1" id="gBq-Eu-WcQ"/>
                         <outlet property="cameraButton" destination="Kwf-Nw-ep1" id="LDl-t8-p0x"/>
                         <outlet property="galleryButton" destination="08I-LO-O9f" id="4sE-ko-iDp"/>
                         <outlet property="imageAspectRatioConstraint" destination="9NZ-L4-yPP" id="bsZ-hc-wXr"/>
                         <outlet property="imageView" destination="uTa-U7-OBd" id="7hp-IT-RH9"/>
+                        <outlet property="shareButton" destination="H6I-Ff-2xQ" id="dTh-H8-wOu"/>
                         <outlet property="topTextField" destination="RGN-6T-8AT" id="gsi-tC-mJH"/>
                     </connections>
                 </viewController>
@@ -106,7 +120,4 @@
             <point key="canvasLocation" x="32.799999999999997" y="62.518740629685162"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="placeholder" width="1280" height="960"/>
-    </resources>
 </document>
