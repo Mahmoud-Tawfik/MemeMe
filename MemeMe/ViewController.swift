@@ -85,13 +85,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     //MARK: Keyboard methods
     
     func keyboardWillShow(notification: Notification) {
-        let keyboardSize = notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
-        self.view.frame.origin.y -= keyboardSize.cgRectValue.height
+        if bottomTextField.isFirstResponder {
+            let keyboardSize = notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
+            self.view.frame.origin.y -= keyboardSize.cgRectValue.height
+        }
     }
 
     func keyboardWillHide(notification: Notification) {
-        let keyboardSize = notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
-        self.view.frame.origin.y += keyboardSize.cgRectValue.height
+        self.view.frame.origin.y = 0
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
