@@ -29,13 +29,11 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet weak var bottomTextField: UITextField!
     @IBOutlet weak var imageAspectRatioConstraint: NSLayoutConstraint!
     @IBOutlet weak var shareButton: UIBarButtonItem!
+    @IBOutlet var imagePickerView: UIImagePickerController!
     
     //MARK: IBActions
     
     @IBAction func pickImage(_ sender: UIBarButtonItem) {
-        
-        let imagePickerView = UIImagePickerController()
-        imagePickerView.delegate = self
         
         // Gallery Button tag = 0 & Camera Button tag = 1
         imagePickerView.sourceType = sender.tag == 0 ? .photoLibrary : .camera
@@ -164,7 +162,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     func keyboardWillShow(notification: Notification) {
         if bottomTextField.isFirstResponder {
             let keyboardSize = notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue
-            self.view.frame.origin.y = -keyboardSize.cgRectValue.height // using -= operator causes problem when rotating the device while keyboard already shown
+            view.frame.origin.y = -keyboardSize.cgRectValue.height // using -= operator causes problem when rotating the device while keyboard already shown
         }
     }
 

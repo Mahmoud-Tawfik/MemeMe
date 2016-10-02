@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Meme Me-->
+        <!--Delegate-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MemeEditorViewController" customModule="MemeMe" customModuleProvider="target" sceneMemberID="viewController">
@@ -92,12 +92,18 @@
                         <outlet property="cameraButton" destination="Kwf-Nw-ep1" id="LDl-t8-p0x"/>
                         <outlet property="galleryButton" destination="08I-LO-O9f" id="4sE-ko-iDp"/>
                         <outlet property="imageAspectRatioConstraint" destination="9NZ-L4-yPP" id="bsZ-hc-wXr"/>
+                        <outlet property="imagePickerView" destination="bjl-Nv-a5x" id="jtm-By-r8V"/>
                         <outlet property="imageView" destination="uTa-U7-OBd" id="7hp-IT-RH9"/>
                         <outlet property="shareButton" destination="H6I-Ff-2xQ" id="dTh-H8-wOu"/>
                         <outlet property="topTextField" destination="RGN-6T-8AT" id="gsi-tC-mJH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <customObject id="bjl-Nv-a5x" customClass="UIImagePickerController">
+                    <connections>
+                        <outlet property="delegate" destination="BYZ-38-t0r" id="S6K-38-0z8"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="972" y="62.518740629685162"/>
         </scene>
