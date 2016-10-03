@@ -10,7 +10,7 @@ import UIKit
 
 class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    //MARK: Constants / Variables
+    // MARK: Constants / Variables
     let textFieldDelegate = TextFieldDelegate()
     let memeTextAttributes : [String : Any] = [
         NSStrokeColorAttributeName : UIColor.black,
@@ -18,9 +18,13 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
         NSStrokeWidthAttributeName : -3.0
     ]
-    var memes = [MemeModel]()
+    var meme: Meme?
+    var memes: [Meme] {
+        get { return (UIApplication.shared.delegate as! AppDelegate).memes }
+        set {(UIApplication.shared.delegate as! AppDelegate).memes = newValue }
+    }
 
-    //MARK: IBOutlets
+    // MARK: IBOutlets
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var galleryButton: UIBarButtonItem!
@@ -31,7 +35,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     @IBOutlet weak var shareButton: UIBarButtonItem!
     @IBOutlet var imagePickerView: UIImagePickerController!
     
-    //MARK: IBActions
+    // MARK: IBActions
     
     @IBAction func pickImage(_ sender: UIBarButtonItem) {
         
@@ -46,23 +50,25 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         let activityView = UIActivityViewController.init(activityItems: [memedImage], applicationActivities: nil)
         activityView.completionWithItemsHandler = {(_, completed, _, _) in
             if completed {
-                let meme = MemeModel(originalImage: self.imageView.image!,
+                let meme = Meme(originalImage: self.imageView.image!,
                                      topText: self.topTextField.text!,
                                      bottomText: self.bottomTextField.text!,
                                      memedImage: memedImage)
                 self.memes.append(meme)
             
-                self.clearMeme()
+//                self.clearMeme()
+                self.dismiss(animated: true, completion: nil)
             }
         }
         present(activityView, animated: true, completion: nil)
     }
 
     @IBAction func cancel(_ sender: AnyObject) {
-        clearMeme()
+//        clearMeme()
+        dismiss(animated: true, completion: nil)
     }
 
-    //MARK: Meme Methods
+    // MARK: Meme Methods
     
     func generateMemedImage() -> UIImage {
         // Render view to an image
@@ -115,26 +121,36 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         textField.text = string
     }
 
-    //MARK: UIImagePickerControllerDelegate methods
+    // MARK: UIImagePickerControllerDelegate methods
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
-            imageView.image = image
-            
-            // Update image Aspect Ratio constraint which is used to keep text on the image
-            let imageAspectRatio = image.size.width / image.size.height
-            updateConstarintMultiplier(constarint: imageAspectRatioConstraint, multiplier: imageAspectRatio)
-
-            shareButton.isEnabled = true
+            loadImage(image: image)
         }
         dismiss(animated: true, completion: nil)
     }
     
-    //MARK: Lifecycle methods
+    func loadImage(image: UIImage) {
+        imageView.image = image
+        
+        // Update image Aspect Ratio constraint which is used to keep text on the image
+        let imageAspectRatio = image.size.width / image.size.height
+        updateConstarintMultiplier(constarint: imageAspectRatioConstraint, multiplier: imageAspectRatio)
+        
+        shareButton.isEnabled = true
+    }
+    
+    // MARK: Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepareMemeTextField(textField: topTextField, string: "TOP")
-        prepareMemeTextField(textField: bottomTextField, string: "BOTTOM")
+        if let meme = meme{
+            loadImage(image: meme.originalImage)
+            prepareMemeTextField(textField: topTextField, string: meme.topText)
+            prepareMemeTextField(textField: bottomTextField, string: meme.bottomText)
+        } else {
+            prepareMemeTextField(textField: topTextField, string: "TOP")
+            prepareMemeTextField(textField: bottomTextField, string: "BOTTOM")            
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -157,7 +173,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
     }
 
-    //MARK: Keyboard methods
+    // MARK: Keyboard methods
     
     func keyboardWillShow(notification: Notification) {
         if bottomTextField.isFirstResponder {
