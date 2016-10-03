@@ -37,10 +37,6 @@ class TableSavedMemesViewController: UIViewController, UITableViewDelegate, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MemeCell")! as! MemeTableViewCell
         cell.meme = memes[indexPath.row]
-//        let meme = memes[indexPath.row]
-//        cell.imageView?.image = meme.memedImage
-//        cell.textLabel?.text = "\(meme.topText)...\(meme.bottomText)"
-//        cell.textLabel?.lineBreakMode = .byTruncatingMiddle
         return cell
     }
 
